@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Services | Automation Service</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="tailwind-config.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body
+    class="font-display bg-bg-light text-charcoal antialiased overflow-x-hidden pt-20"
+  >
+    <!-- Innovative Glass Cursor -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-aura"></div>
+    <!-- NAV -->
+    <nav
+      class="fixed top-0 w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-charcoal/5"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <a href="index.html" class="flex items-center gap-3 group">
+          <span
+            class="material-symbols-outlined text-charcoal/50 group-hover:text-primary transition-colors"
+            >arrow_back</span
+          >
+          <span
+            class="text-lg font-bold tracking-tight text-charcoal/80 group-hover:text-primary transition-colors"
+            >Back to Home</span
+          >
+        </a>
+        <div class="text-xl font-bold tracking-tight">Our Agents</div>
+      </div>
+    </nav>
+    <div class="max-w-7xl mx-auto px-6 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+        <span
+          class="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary mb-4"
+          >Service Catalog</span
+        >
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+          Autonomous Agents<br />Ready for Deployment
+        </h1>
+        <p class="text-slate-500 text-lg">
+          Scalable, reliable, and intelligent automation services starting at
+          just $99. Choose the agents that best fit your business needs.
+        </p>
+      </div>
+      <!-- Active Services -->
+      <h2 class="text-2xl font-bold border-b border-charcoal/10 pb-4 mb-8">
+        Active Services
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+        <!-- Service 1 -->
+        <div
+          class="bg-white border border-charcoal/10 rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group reveal"
+        >
+          <div
+            class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors"
+          >
+            <span
+              class="material-symbols-outlined text-3xl text-primary group-hover:text-white transition-colors"
+              >support_agent</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Customer Support</h3>
+          <div class="text-xl font-bold text-primary mb-4">
+            $99<span class="text-sm font-normal text-slate-500"
+              >/mo per agent</span
+            >
+          </div>
+          <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+            Handles multi-channel L1/L2 support, resolves common queries
+            instantly, and seamlessly escalates complex issues with full
+            context.
+          </p>
+          <button
+            onclick="window.location.href = 'payment.html?plan=starter'"
+            class="w-full py-3 font-bold rounded-xl hover:text-white transition-colors bg-charcoal text-white hover:bg-charcoal/90"
+          >
+            Deploy Agent
+          </button>
+        </div>
+        <!-- Service 2 -->
+        <div
+          class="bg-white border border-charcoal/10 rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group reveal"
+          style="transition-delay: 0.1s"
+        >
+          <div
+            class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors"
+          >
+            <span
+              class="material-symbols-outlined text-3xl text-primary group-hover:text-white transition-colors"
+              >rocket_launch</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Sales Dev Rep (SDR)</h3>
+          <div class="text-xl font-bold text-primary mb-4">
+            $199<span class="text-sm font-normal text-slate-500"
+              >/mo per agent</span
+            >
+          </div>
+          <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+            Runs autonomous outbound outreach campaigns, qualifies inbound
+            leads, and books meetings directly onto your sales team's calendar.
+          </p>
+          <button
+            onclick="window.location.href = 'payment.html?plan=pro'"
+            class="w-full py-3 font-bold rounded-xl hover:text-white transition-colors bg-charcoal text-white hover:bg-charcoal/90"
+          >
+            Deploy Agent
+          </button>
+        </div>
+        <!-- Service 3 -->
+        <div
+          class="bg-white border border-charcoal/10 rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group reveal"
+          style="transition-delay: 0.2s"
+        >
+          <div
+            class="w-14 h-14 bg-accent-gold/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent-gold transition-colors"
+          >
+            <span
+              class="material-symbols-outlined text-3xl text-accent-gold group-hover:text-white transition-colors"
+              >analytics</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Financial Analyst</h3>
+          <div class="text-xl font-bold text-accent-gold mb-4">
+            $299<span class="text-sm font-normal text-slate-500"
+              >/mo per agent</span
+            >
+          </div>
+          <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+            Performs real-time P&L tracking, automatically categorizes expenses,
+            detects anomalies, and generates predictive financial forecasts.
+          </p>
+          <button
+            onclick="window.location.href = 'payment.html?plan=pro'"
+            class="w-full py-3 font-bold rounded-xl hover:text-white transition-colors bg-charcoal text-white hover:bg-charcoal/90"
+          >
+            Deploy Agent
+          </button>
+        </div>
+        <!-- Service 4 -->
+        <div
+          class="bg-white border border-charcoal/10 rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group reveal"
+        >
+          <div
+            class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors"
+          >
+            <span
+              class="material-symbols-outlined text-3xl text-primary group-hover:text-white transition-colors"
+              >gavel</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Legal Reviewer</h3>
+          <div class="text-xl font-bold text-primary mb-4">
+            $349<span class="text-sm font-normal text-slate-500"
+              >/mo per agent</span
+            >
+          </div>
+          <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+            Accelerates compliance tracking, flags high-risk clauses,
+            automatically redlines standard contracts, and compares vendor
+            agreements.
+          </p>
+          <button
+            onclick="window.location.href = 'payment.html?plan=enterprise'"
+            class="w-full py-3 font-bold rounded-xl hover:text-white transition-colors bg-charcoal text-white hover:bg-charcoal/90"
+          >
+            Deploy Agent
+          </button>
+        </div>
+        <!-- Service 5 -->
+        <div
+          class="bg-white border border-charcoal/10 rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group reveal"
+          style="transition-delay: 0.1s"
+        >
+          <div
+            class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors"
+          >
+            <span
+              class="material-symbols-outlined text-3xl text-primary group-hover:text-white transition-colors"
+              >local_shipping</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2">Supply Optimizer</h3>
+          <div class="text-xl font-bold text-primary mb-4">
+            $149<span class="text-sm font-normal text-slate-500"
+              >/mo per agent</span
+            >
+          </div>
+          <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+            Monitors inventory levels, forecasts supply and demand disruptions,
+            triggers vendor re-orders, and optimizes logistics routing logic.
+          </p>
+          <button
+            onclick="window.location.href = 'payment.html?plan=starter'"
+            class="w-full py-3 font-bold rounded-xl hover:text-white transition-colors bg-charcoal text-white hover:bg-charcoal/90"
+          >
+            Deploy Agent
+          </button>
+        </div>
+        <!-- Service 6 -->
+        <div
+          class="bg-white border border-charcoal/10 rounded-2xl p-8 hover:shadow-xl transition-all hover:-translate-y-1 group reveal"
+          style="transition-delay: 0.2s"
+        >
+          <div
+            class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors"
+          >
+            <span
+              class="material-symbols-outlined text-3xl text-primary group-hover:text-white transition-colors"
+              >groups</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2">HR Onboarding</h3>
+          <div class="text-xl font-bold text-primary mb-4">
+            $129<span class="text-sm font-normal text-slate-500"
+              >/mo per agent</span
+            >
+          </div>
+          <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+            Automates document collection, guides new hires through policy
+            training, provisions IT accounts, and manages introductory meetings.
+          </p>
+          <button
+            onclick="window.location.href = 'payment.html?plan=starter'"
+            class="w-full py-3 font-bold rounded-xl hover:text-white transition-colors bg-charcoal text-white hover:bg-charcoal/90"
+          >
+            Deploy Agent
+          </button>
+        </div>
+      </div>
+      <!-- Upcoming Services -->
+      <h2
+        class="text-2xl font-bold border-b border-charcoal/10 pb-4 mb-8 flex items-center gap-3"
+      >
+        Upcoming Agents
+        <span
+          class="bg-charcoal text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+          >In Development</span
+        >
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Upcoming 1 -->
+        <div
+          class="bg-slate-50 border border-slate-200 rounded-2xl p-8 relative overflow-hidden group reveal"
+        >
+          <div
+            class="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <span
+              class="bg-charcoal text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg"
+              >Testing Phase</span
+            >
+          </div>
+          <div class="flex justify-between items-start mb-6 opacity-60">
+            <div
+              class="w-14 h-14 bg-slate-200 rounded-xl flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-3xl text-slate-400"
+                >brush</span
+              >
+            </div>
+            <span
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest"
+              >Q4 2026</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2 text-slate-500">
+            Marketing Director
+          </h3>
+          <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+            Generates multi-channel ad campaigns, writes high-converting copy,
+            automates A/B testing, and dynamically reallocates ad spend.
+          </p>
+        </div>
+        <!-- Upcoming 2 -->
+        <div
+          class="bg-slate-50 border border-slate-200 rounded-2xl p-8 relative overflow-hidden group reveal"
+          style="transition-delay: 0.1s"
+        >
+          <div
+            class="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <span
+              class="bg-charcoal text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg"
+              >Architecture Review</span
+            >
+          </div>
+          <div class="flex justify-between items-start mb-6 opacity-60">
+            <div
+              class="w-14 h-14 bg-slate-200 rounded-xl flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-3xl text-slate-400"
+                >dns</span
+              >
+            </div>
+            <span
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest"
+              >Q1 2027</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2 text-slate-500">
+            System Architect
+          </h3>
+          <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+            Dynamically scales cloud infrastructure based on load, automates
+            zero-downtime deployments, and identifies architectural bottlenecks.
+          </p>
+        </div>
+        <!-- Upcoming 3 -->
+        <div
+          class="bg-slate-50 border border-slate-200 rounded-2xl p-8 relative overflow-hidden group reveal"
+          style="transition-delay: 0.2s"
+        >
+          <div
+            class="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <span
+              class="bg-charcoal text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg"
+              >Concept Phase</span
+            >
+          </div>
+          <div class="flex justify-between items-start mb-6 opacity-60">
+            <div
+              class="w-14 h-14 bg-slate-200 rounded-xl flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-3xl text-slate-400"
+                >event_available</span
+              >
+            </div>
+            <span
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest"
+              >Q2 2027</span
+            >
+          </div>
+          <h3 class="text-2xl font-bold mb-2 text-slate-500">
+            Executive Assistant
+          </h3>
+          <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+            Manages deep calendar conflicts, drafts context-aware email
+            responses, books complete travel itineraries, and builds daily
+            briefings.
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer class="bg-white border-t border-charcoal/5 pt-20 pb-10 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-12 gap-12 mb-16">
+          <div class="col-span-2 md:col-span-4">
+            <div class="flex items-center gap-3 mb-5 text-charcoal">
+              <div class="size-6 text-primary">
+                <svg
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span class="text-lg font-bold tracking-tight"
+                >Automation Service</span
+              >
+            </div>
+            <p class="text-charcoal/45 text-sm leading-relaxed max-w-xs mb-7">
+              The next evolution of enterprise intelligence. Autonomous agents
+              designed for high-performance organizations.
+            </p>
+            <div class="flex gap-3">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-charcoal/5 flex items-center justify-center hover:bg-charcoal hover:text-white transition-all"
+                ><span class="material-symbols-outlined text-lg"
+                  >public</span
+                ></a
+              >
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-charcoal/5 flex items-center justify-center hover:bg-charcoal hover:text-white transition-all"
+                ><span class="material-symbols-outlined text-lg">share</span></a
+              >
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-charcoal/5 flex items-center justify-center hover:bg-charcoal hover:text-white transition-all"
+                ><span class="material-symbols-outlined text-lg"
+                  >videocam</span
+                ></a
+              >
+            </div>
+          </div>
+          <div class="col-span-1 md:col-span-2">
+            <h5 class="font-bold text-xs uppercase tracking-widest mb-5">
+              Platform
+            </h5>
+            <ul class="space-y-3.5 text-sm text-charcoal/55">
+              <li>
+                <a
+                  class="hover:text-charcoal transition-colors"
+                  href="#services"
+                  >Core Engine</a
+                >
+              </li>
+              <li>
+                <a
+                  class="hover:text-charcoal transition-colors"
+                  href="#benefits"
+                  >Integrations</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Security</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Enterprise</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-span-1 md:col-span-2">
+            <h5 class="font-bold text-xs uppercase tracking-widest mb-5">
+              Solutions
+            </h5>
+            <ul class="space-y-3.5 text-sm text-charcoal/55">
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Customer Ops</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Finance AI</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Supply Chain</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Legal Automator</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-span-1 md:col-span-2">
+            <h5 class="font-bold text-xs uppercase tracking-widest mb-5">
+              Company
+            </h5>
+            <ul class="space-y-3.5 text-sm text-charcoal/55">
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#"
+                  >Press Kit</a
+                >
+              </li>
+              <li>
+                <a class="hover:text-charcoal transition-colors" href="#contact"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-span-1 md:col-span-2">
+            <h5 class="font-bold text-xs uppercase tracking-widest mb-5">
+              Newsletter
+            </h5>
+            <p class="text-sm text-charcoal/55 leading-relaxed mb-4">
+              Stay updated on our latest agent releases.
+            </p>
+            <form onsubmit="handleNewsletterForm(event)" class="flex gap-2">
+              <input
+                class="bg-bg-light border border-charcoal/10 rounded-lg text-sm px-4 py-2 w-full focus:outline-none focus:ring-1 focus:ring-primary"
+                placeholder="Email"
+                type="email"
+              /><button
+                type="submit"
+                class="p-2 rounded-lg transition-colors text-charcoal"
+              >
+                <span class="material-symbols-outlined text-sm">send</span>
+              </button>
+            </form>
+          </div>
+        </div>
+        <div
+          class="pt-8 border-t border-charcoal/5 flex flex-col md:flex-row justify-between items-center gap-5"
+        >
+          <p class="text-xs text-charcoal/35">
+            © 2026 Automation Service Inc. All rights reserved.
+          </p>
+          <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2">
+              <div
+                class="size-2 rounded-full bg-emerald-500 animate-pulse"
+              ></div>
+              <span class="text-xs font-medium text-charcoal/55"
+                >System Status: Optimal</span
+              >
+            </div>
+            <div class="flex gap-6 text-xs font-medium text-charcoal/40">
+              <a href="#" class="hover:text-primary transition-colors"
+                >Privacy</a
+              ><a href="#" class="hover:text-primary transition-colors">Terms</a
+              ><a href="#" class="hover:text-primary transition-colors">GDPR</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

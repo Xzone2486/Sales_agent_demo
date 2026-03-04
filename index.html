@@ -1270,52 +1270,63 @@
         let isExiting = false;
         let animationId;
 
+        // Variables for smoothed exit animation
+        let targetZ = 15;
+        let targetFov = 45;
+        let currentWarpSpeed = 0;
+
         function animate() {
             animationId = requestAnimationFrame(animate);
+            const delta = clock.getDelta();
             const elapsedTime = clock.getElapsedTime();
 
             // Float effect
             sphereGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.2;
             
-            // Rotations
-            mainSphere.rotation.y += 0.003;
-            mainSphere.rotation.z += 0.001;
+            // Default Rotations
+            mainSphere.rotation.y += 0.15 * delta;
+            mainSphere.rotation.z += 0.05 * delta;
             
-            coreMesh.rotation.y -= 0.008;
-            coreMesh.rotation.x += 0.004;
+            coreMesh.rotation.y -= 0.4 * delta;
+            coreMesh.rotation.x += 0.2 * delta;
             
-            solidCore.rotation.y += 0.01;
+            solidCore.rotation.y += 0.5 * delta;
             
-            particleMesh.rotation.y += 0.002;
-            particleMesh.rotation.z -= 0.001;
+            particleMesh.rotation.y += 0.1 * delta;
+            particleMesh.rotation.z -= 0.05 * delta;
 
-            ring1.rotation.z -= 0.004;
-            ring2.rotation.z += 0.003;
+            ring1.rotation.z -= 0.2 * delta;
+            ring2.rotation.z += 0.15 * delta;
 
             if (isExiting) {
-                // Warp speed zoom and flash effect
-                camera.position.z += (0.1 - camera.position.z) * 0.08;
-                camera.fov += (120 - camera.fov) * 0.05;
+                // Smooth Warp speed zoom using lerp
+                targetZ = 0.5;
+                targetFov = 110;
+                
+                // Smooth interpolation for camera
+                camera.position.z += (targetZ - camera.position.z) * 3.5 * delta;
+                camera.fov += (targetFov - camera.fov) * 4.0 * delta;
                 camera.updateProjectionMatrix();
 
-                // Rotate faster
-                sphereGroup.rotation.y += 0.05;
-                particleMesh.rotation.y += 0.1;
+                // Accelerate rotations smoothly
+                sphereGroup.rotation.y += 2.0 * delta;
+                particleMesh.rotation.y += 3.0 * delta;
 
-                // Increase core glow
-                solidCoreMat.emissiveIntensity += 0.2;
+                // Smoothly Increase core glow
+                solidCoreMat.emissiveIntensity += (2.5 - solidCoreMat.emissiveIntensity) * 4.0 * delta;
                 
-                // Explode particles outwards towards camera
+                // Smooth particle explosion
+                currentWarpSpeed += (8.0 - currentWarpSpeed) * 2.0 * delta;
                 const positions = particleGeo.attributes.position.array;
                 for(let i=0; i<positions.length; i+=3) {
-                    positions[i+2] += 0.5; 
+                    positions[i+2] += currentWarpSpeed * delta; 
                 }
                 particleGeo.attributes.position.needsUpdate = true;
                 
-                // Fade out outer shell
-                glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 0.05);
-                ring1.material.opacity = Math.max(0, ring1.material.opacity - 0.05);
-                ring2.material.opacity = Math.max(0, ring2.material.opacity - 0.05);
+                // Smooth Fade out outer shell
+                glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 1.5 * delta);
+                ring1.material.opacity = Math.max(0, ring1.material.opacity - 1.5 * delta);
+                ring2.material.opacity = Math.max(0, ring2.material.opacity - 1.5 * delta);
             }
 
             renderer.render(scene, camera);

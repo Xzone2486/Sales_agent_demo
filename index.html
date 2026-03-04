@@ -257,19 +257,44 @@
                 </div>
             </div>
         </div>
-    </section> <!-- STATS -->
-    <section class="py-20 bg-charcoal text-white">
-        <div class="max-w-7xl mx-auto px-6 flex flex-wrap gap-12 md:gap-0 justify-around items-center">
-            <div class="flex flex-col items-center gap-1 reveal"> <span class="text-5xl font-bold">12,482</span><span
-                    class="text-white/40 text-sm font-medium uppercase tracking-widest mt-1">Active Agents</span> </div>
-            <div class="flex flex-col items-center gap-1 reveal"> <span class="text-5xl font-bold">1.2M+</span><span
-                    class="text-white/40 text-sm font-medium uppercase tracking-widest mt-1">Tasks Completed</span>
+    <!-- STATS (Infinite Scroll) -->
+    <section class="py-12 bg-charcoal text-white overflow-hidden border-y border-white/5 relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-charcoal via-transparent to-charcoal z-10 pointer-events-none w-full"></div>
+        <div class="flex whitespace-nowrap gap-16 md:gap-32 w-max animate-[scroll_40s_linear_infinite] hover:[animation-play-state:paused] py-4">
+            <!-- Set 1 -->
+            <div class="flex items-center gap-16 md:gap-32">
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">12,482</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Active Agents</span> </div>
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">1.2M+</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Tasks Completed</span> </div>
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">64%</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Cost Savings</span> </div>
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">42ms</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Avg Response</span> </div>
             </div>
-            <div class="flex flex-col items-center gap-1 reveal"> <span class="text-5xl font-bold">64%</span><span
-                    class="text-white/40 text-sm font-medium uppercase tracking-widest mt-1">Cost Savings</span> </div>
-            <div class="flex flex-col items-center gap-1 reveal"> <span class="text-5xl font-bold">42ms</span><span
-                    class="text-white/40 text-sm font-medium uppercase tracking-widest mt-1">Avg Response</span> </div>
+            <!-- Set 2 (Duplicate for continuous scroll) -->
+            <div class="flex items-center gap-16 md:gap-32" aria-hidden="true">
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">12,482</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Active Agents</span> </div>
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">1.2M+</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Tasks Completed</span> </div>
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">64%</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Cost Savings</span> </div>
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">42ms</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Avg Response</span> </div>
+            </div>
+            <!-- Set 3 (Extra buffer) -->
+            <div class="flex items-center gap-16 md:gap-32 px-16 md:px-32" aria-hidden="true">
+                <div class="flex items-center text-white/10"><span class="material-symbols-outlined">network_node</span></div>
+                <div class="flex flex-col items-center gap-1"> <span class="text-4xl md:text-5xl font-bold">12,482</span><span class="text-white/40 text-xs md:text-sm font-medium uppercase tracking-widest mt-1">Active Agents</span> </div>
+            </div>
         </div>
+        <!-- Styles for scroll animation -->
+        <style>
+            @keyframes scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(calc(-50% - 1rem)); } 
+            }
+        </style>
     </section> <!-- BENEFITS -->
     <section id="benefits" class="py-32 bg-bg-light">
         <div class="max-w-7xl mx-auto px-6 md:px-10">

@@ -1299,32 +1299,22 @@
             ring2.rotation.z += 0.15 * delta;
 
             if (isExiting) {
-                // Smooth Warp speed zoom using lerp
-                targetZ = 0.5;
-                targetFov = 110;
-                
-                // Smooth interpolation for camera
-                camera.position.z += (targetZ - camera.position.z) * 3.5 * delta;
-                camera.fov += (targetFov - camera.fov) * 4.0 * delta;
-                camera.updateProjectionMatrix();
+                // Smooth Fade Out & gentle scale up instead of aggressive warp speed
+                const scaleSpeed = 1.0 + (0.5 * delta); // gentle expansion
 
-                // Accelerate rotations smoothly
-                sphereGroup.rotation.y += 2.0 * delta;
-                particleMesh.rotation.y += 3.0 * delta;
+                // Scale up everything gently
+                sphereGroup.scale.multiplyScalar(scaleSpeed);
+                particleMesh.scale.multiplyScalar(scaleSpeed);
+                ring1.scale.multiplyScalar(scaleSpeed);
+                ring2.scale.multiplyScalar(scaleSpeed);
 
-                // Smoothly Increase core glow
-                solidCoreMat.emissiveIntensity += (2.5 - solidCoreMat.emissiveIntensity) * 4.0 * delta;
-                
-                // Smooth particle explosion
-                currentWarpSpeed += (8.0 - currentWarpSpeed) * 2.0 * delta;
-                const positions = particleGeo.attributes.position.array;
-                for(let i=0; i<positions.length; i+=3) {
-                    positions[i+2] += currentWarpSpeed * delta; 
-                }
-                particleGeo.attributes.position.needsUpdate = true;
-                
-                // Smooth Fade out outer shell
+                // Fade out all materials smoothly
                 glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 1.5 * delta);
+                coreMaterial.opacity = Math.max(0, coreMaterial.opacity - 1.5 * delta);
+                solidCoreMat.opacity = Math.max(0, solidCoreMat.opacity - 1.5 * delta);
+                solidCoreMat.transparent = true;
+                
+                particleMat.opacity = Math.max(0, particleMat.opacity - 1.5 * delta);
                 ring1.material.opacity = Math.max(0, ring1.material.opacity - 1.5 * delta);
                 ring2.material.opacity = Math.max(0, ring2.material.opacity - 1.5 * delta);
             }
@@ -1344,17 +1334,22 @@
 
         // --- INTERACTION / EXIT ---
         enterBtn.addEventListener('click', () => {
+            if (isExiting) return; // Prevent multiple clicks
             isExiting = true;
             
-            // Fade out UI
+            // Fade out UI smoothly
             preloaderUi.style.opacity = '0';
             
-            // Flash bang effect - transition background to pure white
-            preloader.style.background = '#ffffff';
+            // Smoothly remove background color from container so main site starts to show
+            preloader.style.background = 'transparent';
 
             setTimeout(() => {
-                // Now fade out the entire preloader container slowly
+                // Now fade out the entire preloader container to fully reveal main site
                 preloader.style.opacity = '0';
+                
+                // Main site "pop-up" effect (starts slightly lower and scales up into place)
+                document.body.style.animation = "mainPopUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards";
+                
                 setTimeout(() => {
                     cancelAnimationFrame(animationId);
                     
@@ -1371,8 +1366,18 @@
                     document.body.classList.remove('no-scroll');
                     sessionStorage.setItem('ag_visited_premium', 'true');
                 }, 1000); // Wait for opacity transition
-            }, 600); // Hold the warp effect
+            }, 500); // 0.5s after click, full container fades
         });
+
+        // Add pop-up keyframes to head
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes mainPopUp {
+                0% { transform: scale(0.98) translateY(20px); opacity: 0.8; }
+                100% { transform: scale(1) translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
 
         // Resize handler
         window.addEventListener('resize', () => {

@@ -1299,7 +1299,7 @@
             ring2.rotation.z += 0.15 * delta;
 
             if (isExiting) {
-                // Smooth Fade Out & gentle scale up instead of aggressive warp speed
+                // Smooth Fade Out & gentle scale up combined with Warp effect
                 const scaleSpeed = 1.0 + (0.5 * delta); // gentle expansion
 
                 // Scale up everything gently
@@ -1308,15 +1308,31 @@
                 ring1.scale.multiplyScalar(scaleSpeed);
                 ring2.scale.multiplyScalar(scaleSpeed);
 
+                // Spin the rings and sphere faster
+                sphereGroup.rotation.y += 2.0 * delta;
+                ring1.rotation.z -= 4.0 * delta;
+                ring2.rotation.z += 4.0 * delta;
+
+                // Warp the particles towards camera
+                currentWarpSpeed += (12.0 - currentWarpSpeed) * 2.0 * delta;
+                const positions = particleGeo.attributes.position.array;
+                for(let i=0; i<positions.length; i+=3) {
+                    positions[i+2] += currentWarpSpeed * delta; 
+                }
+                particleGeo.attributes.position.needsUpdate = true;
+
+                // Increase core glow temporarily before fade
+                solidCoreMat.emissiveIntensity += (2.5 - solidCoreMat.emissiveIntensity) * 4.0 * delta;
+
                 // Fade out all materials smoothly
-                glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 1.5 * delta);
-                coreMaterial.opacity = Math.max(0, coreMaterial.opacity - 1.5 * delta);
-                solidCoreMat.opacity = Math.max(0, solidCoreMat.opacity - 1.5 * delta);
+                glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 1.2 * delta);
+                coreMaterial.opacity = Math.max(0, coreMaterial.opacity - 1.2 * delta);
+                solidCoreMat.opacity = Math.max(0, solidCoreMat.opacity - 1.2 * delta);
                 solidCoreMat.transparent = true;
                 
-                particleMat.opacity = Math.max(0, particleMat.opacity - 1.5 * delta);
-                ring1.material.opacity = Math.max(0, ring1.material.opacity - 1.5 * delta);
-                ring2.material.opacity = Math.max(0, ring2.material.opacity - 1.5 * delta);
+                particleMat.opacity = Math.max(0, particleMat.opacity - 1.2 * delta);
+                ring1.material.opacity = Math.max(0, ring1.material.opacity - 1.2 * delta);
+                ring2.material.opacity = Math.max(0, ring2.material.opacity - 1.2 * delta);
             }
 
             renderer.render(scene, camera);

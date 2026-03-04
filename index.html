@@ -12,9 +12,37 @@
         rel="stylesheet" />
     <script src="tailwind-config.js"> </script>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        .no-scroll { overflow: hidden !important; }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
 </head>
 
 <body class="font-display bg-bg-light text-charcoal antialiased overflow-x-hidden"> <!-- Innovative Glass Cursor -->
+
+    <!-- 3D PRELOADER -->
+    <div id="premium-preloader" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center transition-all duration-1000 ease-in-out" style="background: radial-gradient(circle at center, #ffffff 0%, #ebf0ea 100%);">
+        <!-- Three.js Canvas Container -->
+        <div id="preloader-canvas-container" class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"></div>
+        
+        <!-- UI Overlay -->
+        <div id="preloader-ui" class="relative z-10 flex flex-col items-center justify-center mt-32 opacity-0 transition-opacity duration-1000 ease-in-out">
+            <h1 class="text-3xl md:text-5xl font-bold text-charcoal tracking-tight mb-8 drop-shadow-sm font-display text-center">Welcome to Antigravity</h1>
+            
+            <!-- Button wrapper for exit animation -->
+            <div id="preloader-btn-wrapper" class="transition-all duration-700 ease-in-out transform translate-y-4 opacity-0">
+                <button id="preloader-enter-btn" class="px-8 py-4 bg-charcoal text-white rounded-full font-medium tracking-wide shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group pointer-events-auto cursor-pointer">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                    <span class="relative z-10 pointer-events-none">Enter the Platform</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="cursor-dot"> </div>
     <div id="cursor-aura"> </div> <!-- NAV -->
     <nav id="navbar"
@@ -1106,6 +1134,230 @@
 <script src="script.js">
 </script>
 <script src="comets.js">
+</script>
+
+<!-- Preloader Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const preloader = document.getElementById('premium-preloader');
+        if (!preloader) return;
+
+        // Check if already visited 
+        if (sessionStorage.getItem('ag_visited_premium')) {
+            preloader.style.display = 'none';
+            return;
+        }
+
+        document.body.classList.add('no-scroll');
+
+        const container = document.getElementById('preloader-canvas-container');
+        const preloaderUi = document.getElementById('preloader-ui');
+        const btnWrapper = document.getElementById('preloader-btn-wrapper');
+        const enterBtn = document.getElementById('preloader-enter-btn');
+
+        // --- THREE.JS SETUP ---
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0xebf0ea, 0.02); // matches gradient outer slightly
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 15;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // --- LIGHTING ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        const blueLight = new THREE.PointLight(0x6366f1, 2, 20); 
+        blueLight.position.set(-2, 0, 2);
+        scene.add(blueLight);
+        
+        const whiteLight = new THREE.PointLight(0xffffff, 1.5, 20); 
+        whiteLight.position.set(2, 2, 2);
+        scene.add(whiteLight);
+
+        // --- SPHERE (AI CORE) ---
+        const sphereGroup = new THREE.Group();
+        scene.add(sphereGroup);
+
+        // Main glass sphere
+        const sphereGeo = new THREE.IcosahedronGeometry(2.5, 6); 
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0.1,
+            roughness: 0.05,
+            transmission: 0.9, 
+            thickness: 1.5,
+            transparent: true,
+            opacity: 1,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.1
+        });
+        const mainSphere = new THREE.Mesh(sphereGeo, glassMaterial);
+        sphereGroup.add(mainSphere);
+
+        // Inner glowing core
+        const coreGeo = new THREE.IcosahedronGeometry(1.4, 3);
+        const coreMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0x818cf8, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const coreMesh = new THREE.Mesh(coreGeo, coreMaterial);
+        sphereGroup.add(coreMesh);
+        
+        // Inner solid core
+        const solidCoreGeo = new THREE.IcosahedronGeometry(1.0, 4);
+        const solidCoreMat = new THREE.MeshStandardMaterial({
+            color: 0xf8fafc,
+            emissive: 0x6366f1,
+            emissiveIntensity: 0.5,
+            roughness: 0.2
+        });
+        const solidCore = new THREE.Mesh(solidCoreGeo, solidCoreMat);
+        sphereGroup.add(solidCore);
+
+        // --- PARTICLES / COMET TRAIL ---
+        const particleGeo = new THREE.BufferGeometry();
+        const particleCount = 300;
+        const posArray = new Float32Array(particleCount * 3);
+
+        for(let i=0; i < particleCount * 3; i+=3) {
+            const r = 3.5 + Math.random() * 2.5;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos((Math.random() * 2) - 1);
+            
+            posArray[i] = r * Math.sin(phi) * Math.cos(theta);
+            posArray[i+1] = r * Math.sin(phi) * Math.sin(theta);
+            posArray[i+2] = r * Math.cos(phi);
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particleMat = new THREE.PointsMaterial({
+            size: 0.04,
+            color: 0x6366f1,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+        const particleMesh = new THREE.Points(particleGeo, particleMat);
+        scene.add(particleMesh);
+
+        // Orbiting rings
+        const ringGeo = new THREE.TorusGeometry(3.8, 0.015, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0.4 });
+        const ring1 = new THREE.Mesh(ringGeo, ringMat);
+        ring1.rotation.x = Math.PI / 2.2;
+        ring1.rotation.y = Math.PI / 6;
+        scene.add(ring1);
+        
+        const ring2 = new THREE.Mesh(ringGeo, ringMat);
+        ring2.rotation.x = Math.PI / 1.8;
+        ring2.rotation.y = -Math.PI / 6;
+        ring2.scale.set(1.1, 1.1, 1.1);
+        scene.add(ring2);
+
+        // --- ANIMATION LOOP ---
+        let clock = new THREE.Clock();
+        let isExiting = false;
+        let animationId;
+
+        function animate() {
+            animationId = requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            // Float effect
+            sphereGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.2;
+            
+            // Rotations
+            mainSphere.rotation.y += 0.003;
+            mainSphere.rotation.z += 0.001;
+            
+            coreMesh.rotation.y -= 0.008;
+            coreMesh.rotation.x += 0.004;
+            
+            solidCore.rotation.y += 0.01;
+            
+            particleMesh.rotation.y += 0.002;
+            particleMesh.rotation.z -= 0.001;
+
+            ring1.rotation.z -= 0.004;
+            ring2.rotation.z += 0.003;
+
+            if (isExiting) {
+                // Explode outwards
+                const scaleSpeed = 1.05;
+                sphereGroup.scale.multiplyScalar(scaleSpeed);
+                particleMesh.scale.multiplyScalar(scaleSpeed);
+                ring1.scale.multiplyScalar(scaleSpeed);
+                ring2.scale.multiplyScalar(scaleSpeed);
+                
+                glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 0.03);
+                coreMaterial.opacity = Math.max(0, coreMaterial.opacity - 0.04);
+                solidCoreMat.opacity = Math.max(0, solidCoreMat.opacity - 0.05);
+                solidCoreMat.transparent = true;
+                
+                particleMat.opacity = Math.max(0, particleMat.opacity - 0.03);
+                ring1.material.opacity = Math.max(0, ring1.material.opacity - 0.03);
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- TIMELINE ---
+        setTimeout(() => {
+            preloaderUi.classList.remove('opacity-0');
+        }, 1500);
+
+        setTimeout(() => {
+            btnWrapper.classList.remove('opacity-0', 'translate-y-4');
+        }, 2500);
+
+        // --- INTERACTION / EXIT ---
+        enterBtn.addEventListener('click', () => {
+            isExiting = true;
+            
+            // Fade out UI
+            preloaderUi.style.opacity = '0';
+            preloader.style.background = 'transparent';
+
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    cancelAnimationFrame(animationId);
+                    
+                    // clean up WebGL
+                    scene.traverse(object => {
+                        if (object.isMesh || object.isPoints) {
+                            object.geometry.dispose();
+                            object.material.dispose();
+                        }
+                    });
+                    renderer.dispose();
+                    
+                    preloader.remove();
+                    document.body.classList.remove('no-scroll');
+                    sessionStorage.setItem('ag_visited_premium', 'true');
+                }, 800);
+            }, 600); // 3D explode a bit first
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    });
 </script>
 </body>
 

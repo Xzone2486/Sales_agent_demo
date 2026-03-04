@@ -31,7 +31,7 @@
         
         <!-- UI Overlay -->
         <div id="preloader-ui" class="relative z-10 flex flex-col items-center justify-center mt-32 opacity-0 transition-opacity duration-1000 ease-in-out">
-            <h1 class="text-3xl md:text-5xl font-bold text-charcoal tracking-tight mb-8 drop-shadow-sm font-display text-center">Welcome to Antigravity</h1>
+            <h1 class="text-3xl md:text-5xl font-bold text-charcoal tracking-tight mb-8 drop-shadow-sm font-display text-center">Welcome to <span class="text-primary">AS</span></h1>
             
             <!-- Button wrapper for exit animation -->
             <div id="preloader-btn-wrapper" class="transition-all duration-700 ease-in-out transform translate-y-4 opacity-0">
@@ -1293,20 +1293,29 @@
             ring2.rotation.z += 0.003;
 
             if (isExiting) {
-                // Explode outwards
-                const scaleSpeed = 1.05;
-                sphereGroup.scale.multiplyScalar(scaleSpeed);
-                particleMesh.scale.multiplyScalar(scaleSpeed);
-                ring1.scale.multiplyScalar(scaleSpeed);
-                ring2.scale.multiplyScalar(scaleSpeed);
+                // Warp speed zoom and flash effect
+                camera.position.z += (0.1 - camera.position.z) * 0.08;
+                camera.fov += (120 - camera.fov) * 0.05;
+                camera.updateProjectionMatrix();
+
+                // Rotate faster
+                sphereGroup.rotation.y += 0.05;
+                particleMesh.rotation.y += 0.1;
+
+                // Increase core glow
+                solidCoreMat.emissiveIntensity += 0.2;
                 
-                glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 0.03);
-                coreMaterial.opacity = Math.max(0, coreMaterial.opacity - 0.04);
-                solidCoreMat.opacity = Math.max(0, solidCoreMat.opacity - 0.05);
-                solidCoreMat.transparent = true;
+                // Explode particles outwards towards camera
+                const positions = particleGeo.attributes.position.array;
+                for(let i=0; i<positions.length; i+=3) {
+                    positions[i+2] += 0.5; 
+                }
+                particleGeo.attributes.position.needsUpdate = true;
                 
-                particleMat.opacity = Math.max(0, particleMat.opacity - 0.03);
-                ring1.material.opacity = Math.max(0, ring1.material.opacity - 0.03);
+                // Fade out outer shell
+                glassMaterial.opacity = Math.max(0, glassMaterial.opacity - 0.05);
+                ring1.material.opacity = Math.max(0, ring1.material.opacity - 0.05);
+                ring2.material.opacity = Math.max(0, ring2.material.opacity - 0.05);
             }
 
             renderer.render(scene, camera);
@@ -1328,9 +1337,12 @@
             
             // Fade out UI
             preloaderUi.style.opacity = '0';
-            preloader.style.background = 'transparent';
+            
+            // Flash bang effect - transition background to pure white
+            preloader.style.background = '#ffffff';
 
             setTimeout(() => {
+                // Now fade out the entire preloader container slowly
                 preloader.style.opacity = '0';
                 setTimeout(() => {
                     cancelAnimationFrame(animationId);
@@ -1347,8 +1359,8 @@
                     preloader.remove();
                     document.body.classList.remove('no-scroll');
                     sessionStorage.setItem('ag_visited_premium', 'true');
-                }, 800);
-            }, 600); // 3D explode a bit first
+                }, 1000); // Wait for opacity transition
+            }, 600); // Hold the warp effect
         });
 
         // Resize handler

@@ -1313,6 +1313,13 @@
                 ring1.rotation.z -= 4.0 * delta;
                 ring2.rotation.z += 4.0 * delta;
 
+                // Warp the camera into the sphere
+                targetZ = 0.5;
+                targetFov = 110;
+                camera.position.z += (targetZ - camera.position.z) * 3.5 * delta;
+                camera.fov += (targetFov - camera.fov) * 4.0 * delta;
+                camera.updateProjectionMatrix();
+
                 // Warp the particles towards camera
                 currentWarpSpeed += (12.0 - currentWarpSpeed) * 2.0 * delta;
                 const positions = particleGeo.attributes.position.array;
@@ -1363,9 +1370,6 @@
                 // Now fade out the entire preloader container to fully reveal main site
                 preloader.style.opacity = '0';
                 
-                // Main site "pop-up" effect (starts slightly lower and scales up into place)
-                document.body.style.animation = "mainPopUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards";
-                
                 setTimeout(() => {
                     cancelAnimationFrame(animationId);
                     
@@ -1384,16 +1388,6 @@
                 }, 1000); // Wait for opacity transition
             }, 500); // 0.5s after click, full container fades
         });
-
-        // Add pop-up keyframes to head
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes mainPopUp {
-                0% { transform: scale(0.98) translateY(20px); opacity: 0.8; }
-                100% { transform: scale(1) translateY(0); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
 
         // Resize handler
         window.addEventListener('resize', () => {
